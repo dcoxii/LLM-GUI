@@ -1,0 +1,5 @@
+llm-gui (1.0.0) stable; urgency=medium
+
+  * Initial Debian packaging scaffold for Qt GUI milestone.
+
+ -- LLM-GUI Project <dcoxii1979@gmail.com>  Tue, 31 Mar 2026 12:00:00 +0000

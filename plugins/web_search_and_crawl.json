@@ -1,0 +1,71 @@
+{
+  "name": "Web Search and Crawl",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "get_request",
+      "description": "Helper to create a request object for native search.",
+      "command": "python3",
+      "args": [
+        "web_search_and_crawl_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "search_and_crawl",
+      "description": "USE THIS TOOL whenever the user asks to 'search' for, 'lookup', 'find' information,",
+      "command": "python3",
+      "args": [
+        "web_search_and_crawl_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "query"
+          },
+          "urls": {
+            "type": "array",
+            "description": "urls"
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "max results"
+          },
+          "max_images": {
+            "type": "integer",
+            "description": "max images"
+          },
+          "research_mode": {
+            "type": "boolean",
+            "description": "research mode",
+            "default": false
+          },
+          "research_crawl_mode": {
+            "type": "string",
+            "description": "research crawl mode"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "name": "LLM-GUI Plugin Manager Tool",
+  "requested_scopes": [
+    "filesystem.read",
+    "filesystem.write",
+    "network",
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "list_plugins",
+      "description": "List LLM-GUI plugin manifests found in the local plugins directory.",
+      "command": "python3",
+      "args": [
+        "llm_plugin_manager_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 20000,
+      "scopes": [
+        "filesystem.read",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "show_plugin",
+      "description": "Show details for a local LLM-GUI plugin manifest by plugin name or manifest filename.",
+      "command": "python3",
+      "args": [
+        "llm_plugin_manager_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 20000,
+      "scopes": [
+        "filesystem.read",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Plugin display name or manifest filename."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    {
+      "name": "install_plugin_from_url",
+      "description": "Download and install an LLM-GUI plugin manifest JSON from a URL. Supports companion local script references in the same directory when explicitly provided.",
+      "command": "python3",
+      "args": [
+        "llm_plugin_manager_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 30000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "network",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Direct URL to a plugin manifest JSON file."
+          },
+          "overwrite": {
+            "type": "boolean",
+            "description": "Overwrite existing files if present."
+          },
+          "companion_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional list of additional URLs such as Python scripts referenced by the manifest."
+          }
+        },
+        "required": [
+          "url"
+        ]
+      }
+    },
+    {
+      "name": "create_plugin",
+      "description": "Create a new local LLM-GUI plugin manifest and optional companion script in the plugins directory.",
+      "command": "python3",
+      "args": [
+        "llm_plugin_manager_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 30000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "manifest_filename": {
+            "type": "string"
+          },
+          "manifest_json": {
+            "type": "string",
+            "description": "The complete plugin manifest JSON text."
+          },
+          "script_filename": {
+            "type": "string"
+          },
+          "script_content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "manifest_filename",
+          "manifest_json"
+        ]
+      }
+    },
+    {
+      "name": "update_plugin",
+      "description": "Update an existing local LLM-GUI plugin manifest and optional companion script.",
+      "command": "python3",
+      "args": [
+        "llm_plugin_manager_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 30000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "manifest_filename": {
+            "type": "string"
+          },
+          "manifest_json": {
+            "type": "string"
+          },
+          "script_filename": {
+            "type": "string"
+          },
+          "script_content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "manifest_filename"
+        ]
+      }
+    },
+    {
+      "name": "delete_plugin",
+      "description": "Delete a local LLM-GUI plugin manifest and optionally its companion files from the plugins directory.",
+      "command": "python3",
+      "args": [
+        "llm_plugin_manager_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 20000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "manifest_filename": {
+            "type": "string"
+          },
+          "delete_companion_files": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "manifest_filename"
+        ]
+      }
+    }
+  ]
+}

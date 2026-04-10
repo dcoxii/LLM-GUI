@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=LLM GUI
+Comment=Native Qt desktop interface for LLM workflows
+Exec=llm-gui
+Icon=llm-gui
+Terminal=false
+Type=Application
+Categories=Development;Utility;
+StartupNotify=true

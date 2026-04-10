@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+# Update library cache if needed
+  ldconfig 2>/dev/null || true
+
+  sudo update-desktop-database -q || true
+
+  sudo gtk-update-icon-cache -q /usr/share/icons/hicolor || true
+
+exit 0

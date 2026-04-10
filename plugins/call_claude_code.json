@@ -1,0 +1,55 @@
+{
+  "name": "Call Claude Code",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "run_claude_task",
+      "description": "Send a task or coding instruction to Claude Code CLI and return its response.",
+      "command": "python3",
+      "args": [
+        "call_claude_code_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "prompt"
+          },
+          "working_directory": {
+            "type": "string",
+            "description": "working directory",
+            "default": ""
+          }
+        },
+        "required": [
+          "prompt"
+        ]
+      }
+    },
+    {
+      "name": "claude_version",
+      "description": "Return the installed Claude Code CLI version string. Useful for confirming",
+      "command": "python3",
+      "args": [
+        "call_claude_code_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}

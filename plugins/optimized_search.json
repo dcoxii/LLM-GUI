@@ -1,0 +1,33 @@
+{
+  "name": "Optimized Search",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "optimized_search",
+      "description": "Perform an optimized search using SearXNG (simple) or Vane (deep).",
+      "command": "python3",
+      "args": [
+        "optimized_search_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "query"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

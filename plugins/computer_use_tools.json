@@ -1,0 +1,219 @@
+{
+  "name": "Computer Use Tools",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "mcp_client",
+      "description": "Lazy MCP client — recreated when valves change.",
+      "command": "python3",
+      "args": [
+        "computer_use_tools_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "bash_tool",
+      "description": "Run a bash command in the container",
+      "command": "python3",
+      "args": [
+        "computer_use_tools_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "command"
+          },
+          "description": {
+            "type": "string",
+            "description": "description"
+          }
+        },
+        "required": [
+          "command",
+          "description"
+        ]
+      }
+    },
+    {
+      "name": "str_replace",
+      "description": "Replace a unique string in a file. The string must appear exactly once.",
+      "command": "python3",
+      "args": [
+        "computer_use_tools_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "description"
+          },
+          "old_str": {
+            "type": "string",
+            "description": "old str"
+          },
+          "path": {
+            "type": "string",
+            "description": "path"
+          },
+          "new_str": {
+            "type": "string",
+            "description": "new str",
+            "default": ""
+          }
+        },
+        "required": [
+          "description",
+          "old_str",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "create_file",
+      "description": "Create a new file with content in the container",
+      "command": "python3",
+      "args": [
+        "computer_use_tools_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "description"
+          },
+          "file_text": {
+            "type": "string",
+            "description": "file text"
+          },
+          "path": {
+            "type": "string",
+            "description": "path"
+          }
+        },
+        "required": [
+          "description",
+          "file_text",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "view",
+      "description": "View text files, directory listings, or binary file info.",
+      "command": "python3",
+      "args": [
+        "computer_use_tools_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "description"
+          },
+          "path": {
+            "type": "string",
+            "description": "path"
+          },
+          "view_range": {
+            "type": "string",
+            "description": "view range"
+          }
+        },
+        "required": [
+          "description",
+          "path"
+        ]
+      }
+    },
+    {
+      "name": "sub_agent",
+      "description": "Delegate complex, multi-step tasks to an autonomous sub-agent.",
+      "command": "python3",
+      "args": [
+        "computer_use_tools_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "task"
+          },
+          "description": {
+            "type": "string",
+            "description": "description"
+          },
+          "model": {
+            "type": "string",
+            "description": "model",
+            "default": "sonnet"
+          },
+          "max_turns": {
+            "type": "integer",
+            "description": "max turns",
+            "default": 50
+          },
+          "mode": {
+            "type": "string",
+            "description": "mode",
+            "default": "act"
+          },
+          "working_directory": {
+            "type": "string",
+            "description": "working directory",
+            "default": "/home/assistant"
+          },
+          "resume_session_id": {
+            "type": "string",
+            "description": "resume session id",
+            "default": ""
+          }
+        },
+        "required": [
+          "task",
+          "description"
+        ]
+      }
+    }
+  ]
+}

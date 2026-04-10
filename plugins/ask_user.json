@@ -1,0 +1,33 @@
+{
+  "name": "Ask User",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "get_user_clarification",
+      "description": "Call this tool ONLY when the user's request is too vague or requires specific parameters",
+      "command": "python3",
+      "args": [
+        "ask_user_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "questions": {
+            "type": "array",
+            "description": "questions"
+          }
+        },
+        "required": [
+          "questions"
+        ]
+      }
+    }
+  ]
+}

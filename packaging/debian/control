@@ -1,0 +1,14 @@
+Source: llm-gui
+Section: utils
+Priority: optional
+Maintainer: LLM-GUI Project dcoxii1979@gmail.com
+Build-Depends: cmake, ninja-build, g++, qt6-base-dev, qt6-tools-dev
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+
+Package: llm-gui
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Native Qt LLM GUI application
+ Native Qt 6 desktop application for local and remote LLM workflows with
+ session persistence and streamed local provider integration.

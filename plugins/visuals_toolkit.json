@@ -1,0 +1,308 @@
+{
+  "name": "Visuals Toolkit",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "render_table",
+      "description": "Render a table from a list of row objects (each row is a dict).",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "rows": {
+            "type": "array",
+            "description": "rows"
+          }
+        },
+        "required": [
+          "rows"
+        ]
+      }
+    },
+    {
+      "name": "render_comparison_table",
+      "description": "Compare items across criteria with optional highlighting.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "items"
+          },
+          "criteria": {
+            "type": "array",
+            "description": "criteria"
+          },
+          "scores": {
+            "type": "object",
+            "description": "scores"
+          }
+        },
+        "required": [
+          "items",
+          "criteria",
+          "scores"
+        ]
+      }
+    },
+    {
+      "name": "render_chart",
+      "description": "Render a chart (ASCII in text mode, Plotly in embed mode).",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "array",
+            "description": "x"
+          },
+          "y": {
+            "type": "array",
+            "description": "y"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    {
+      "name": "render_multi_chart",
+      "description": "Render a chart with multiple series.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "series": {
+            "type": "array",
+            "description": "series"
+          }
+        },
+        "required": [
+          "series"
+        ]
+      }
+    },
+    {
+      "name": "render_heatmap",
+      "description": "Render a heatmap (ASCII blocks in text mode, Plotly in embed).",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "description": "data"
+          },
+          "row_labels": {
+            "type": "array",
+            "description": "row labels"
+          },
+          "col_labels": {
+            "type": "array",
+            "description": "col labels"
+          }
+        },
+        "required": [
+          "data",
+          "row_labels",
+          "col_labels"
+        ]
+      }
+    },
+    {
+      "name": "render_metrics_grid",
+      "description": "Render key metrics in a grid layout.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "metrics": {
+            "type": "object",
+            "description": "metrics"
+          }
+        },
+        "required": [
+          "metrics"
+        ]
+      }
+    },
+    {
+      "name": "render_timeline",
+      "description": "Render a timeline of events.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "description": "events"
+          }
+        },
+        "required": [
+          "events"
+        ]
+      }
+    },
+    {
+      "name": "render_dashboard",
+      "description": "Combine multiple visualizations into one dashboard.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "components": {
+            "type": "array",
+            "description": "components"
+          }
+        },
+        "required": [
+          "components"
+        ]
+      }
+    },
+    {
+      "name": "render_ascii_diagram",
+      "description": "Return a monospace ASCII/Unicode diagram as plain text.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "diagram": {
+            "type": "string",
+            "description": "diagram"
+          }
+        },
+        "required": [
+          "diagram"
+        ]
+      }
+    },
+    {
+      "name": "render_flowchart",
+      "description": "Auto-generate simple ASCII flowchart from steps.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "steps": {
+            "type": "array",
+            "description": "steps"
+          }
+        },
+        "required": [
+          "steps"
+        ]
+      }
+    },
+    {
+      "name": "render_tree",
+      "description": "Render hierarchical data as ASCII tree.",
+      "command": "python3",
+      "args": [
+        "visuals_toolkit_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "description": "data"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      }
+    }
+  ]
+}

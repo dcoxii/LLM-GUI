@@ -1,0 +1,250 @@
+{
+  "name": "SuperPowersWUI",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "brainstorm",
+      "description": "Initiates the Superpowers brainstorming phase for a new feature or project idea.",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "idea": {
+            "type": "string",
+            "description": "idea"
+          }
+        },
+        "required": [
+          "idea"
+        ]
+      }
+    },
+    {
+      "name": "start_spec",
+      "description": "Write a spec from a single combined string. Use this instead of write_spec",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "topic_and_summary": {
+            "type": "string",
+            "description": "topic and summary"
+          }
+        },
+        "required": [
+          "topic_and_summary"
+        ]
+      }
+    },
+    {
+      "name": "write_spec",
+      "description": "Saves the approved brainstorm design as a structured spec document, then",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "topic"
+          },
+          "design_summary": {
+            "type": "string",
+            "description": "design summary"
+          }
+        },
+        "required": [
+          "topic",
+          "design_summary"
+        ]
+      }
+    },
+    {
+      "name": "review_spec",
+      "description": "Runs a sub-agent reviewer pass against a saved spec document.",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "spec_path": {
+            "type": "string",
+            "description": "spec path"
+          }
+        },
+        "required": [
+          "spec_path"
+        ]
+      }
+    },
+    {
+      "name": "write_plan",
+      "description": "Reads an approved spec and generates a detailed TDD implementation plan,",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "spec_path": {
+            "type": "string",
+            "description": "spec path"
+          },
+          "feature_name": {
+            "type": "string",
+            "description": "feature name"
+          },
+          "revision_notes": {
+            "type": "string",
+            "description": "revision notes",
+            "default": ""
+          }
+        },
+        "required": [
+          "spec_path",
+          "feature_name"
+        ]
+      }
+    },
+    {
+      "name": "review_plan",
+      "description": "Runs a sub-agent reviewer pass against a saved implementation plan.",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "plan_path": {
+            "type": "string",
+            "description": "plan path"
+          }
+        },
+        "required": [
+          "plan_path"
+        ]
+      }
+    },
+    {
+      "name": "execute_task",
+      "description": "Loads a specific task from an approved plan and executes it via TDD sub-agent.",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "plan_path": {
+            "type": "string",
+            "description": "plan path"
+          },
+          "task_number": {
+            "type": "integer",
+            "description": "task number"
+          },
+          "run_tests": {
+            "type": "boolean",
+            "description": "run tests",
+            "default": false
+          }
+        },
+        "required": [
+          "plan_path",
+          "task_number"
+        ]
+      }
+    },
+    {
+      "name": "skillstack",
+      "description": "Interactive management of the bash command validation knowledge base.",
+      "command": "python3",
+      "args": [
+        "superpowerswui_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "action"
+          },
+          "command": {
+            "type": "string",
+            "description": "command"
+          },
+          "source": {
+            "type": "string",
+            "description": "source"
+          },
+          "url": {
+            "type": "string",
+            "description": "url"
+          },
+          "mode": {
+            "type": "string",
+            "description": "mode",
+            "default": "merge"
+          }
+        },
+        "required": [
+          "action"
+        ]
+      }
+    }
+  ]
+}

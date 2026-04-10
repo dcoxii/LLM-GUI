@@ -1,0 +1,56 @@
+FROM docker.io/debian:trixie-slim
+
+LABEL org.opencontainers.image.title="LLM-GUI"
+LABEL org.opencontainers.image.description="Qt6 LLM desktop client with embedded llama.cpp (Vulkan)"
+LABEL org.opencontainers.image.base.name="docker.io/debian:trixie-slim"
+
+ARG HOST_UID=1000
+ARG HOST_GID=1000
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt6core6t64 \
+    libqt6gui6t64 \
+    libqt6widgets6t64 \
+    libqt6network6t64 \
+    libqt6xcbqpa6t64 \
+    libqt6waylandclient6t64 \
+    qt6-wayland \
+    libxcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-shape0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxkbcommon0 \
+    libvulkan1 \
+    mesa-vulkan-drivers \
+    vulkan-tools \
+    bubblewrap \
+    curl \
+    coreutils \
+    libstdc++6 \
+    libc6 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g "${HOST_GID}" llmgui \
+ && useradd -m -u "${HOST_UID}" -g "${HOST_GID}" -s /bin/bash llmgui
+
+COPY usr /usr
+
+RUN chmod +x /usr/bin/llm-gui \
+ && mkdir -p /home/llmgui/.local/state/LLM-GUI/Logs \
+ && chown -R llmgui:llmgui /home/llmgui
+
+ENV HOME=/home/llmgui
+ENV XDG_CONFIG_HOME=/home/llmgui/.config
+ENV XDG_DATA_HOME=/home/llmgui/.local/share
+ENV XDG_STATE_HOME=/home/llmgui/.local/state
+WORKDIR /home/llmgui
+USER llmgui
+
+ENTRYPOINT ["/usr/bin/llm-gui"]

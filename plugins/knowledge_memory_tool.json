@@ -1,0 +1,150 @@
+{
+  "name": "Knowledge Memory Tool",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "search_memories",
+      "description": "Search stored memories for snippets containing the provided query text.",
+      "command": "python3",
+      "args": [
+        "knowledge_memory_tool_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "query"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "limit"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    },
+    {
+      "name": "get_memory_content",
+      "description": "Fetch the full text of a single stored memory.",
+      "command": "python3",
+      "args": [
+        "knowledge_memory_tool_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "memory_id": {
+            "type": "string",
+            "description": "memory id"
+          }
+        },
+        "required": [
+          "memory_id"
+        ]
+      }
+    },
+    {
+      "name": "create_memory",
+      "description": "Store a new memory entry on behalf of the active user.",
+      "command": "python3",
+      "args": [
+        "knowledge_memory_tool_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "content"
+          },
+          "tags": {
+            "type": "string",
+            "description": "tags"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      }
+    },
+    {
+      "name": "update_memory",
+      "description": "Replace the content (and optionally tags) of an existing memory.",
+      "command": "python3",
+      "args": [
+        "knowledge_memory_tool_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "memory_id": {
+            "type": "string",
+            "description": "memory id"
+          },
+          "content": {
+            "type": "string",
+            "description": "content"
+          },
+          "tags": {
+            "type": "string",
+            "description": "tags"
+          }
+        },
+        "required": [
+          "memory_id",
+          "content"
+        ]
+      }
+    },
+    {
+      "name": "delete_memory",
+      "description": "Remove a memory from the configured storage backend.",
+      "command": "python3",
+      "args": [
+        "knowledge_memory_tool_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "memory_id": {
+            "type": "string",
+            "description": "memory id"
+          }
+        },
+        "required": [
+          "memory_id"
+        ]
+      }
+    }
+  ]
+}

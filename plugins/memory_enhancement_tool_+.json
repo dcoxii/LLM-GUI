@@ -1,0 +1,162 @@
+{
+  "name": "Memory Enhancement Tool Plus",
+  "requested_scopes": [
+    "filesystem.read",
+    "filesystem.write",
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "recall_memories",
+      "description": "Recall stored memories from a local LLM-GUI memory store. Optionally filter by text and choose a profile namespace.",
+      "command": "python3",
+      "args": [
+        "llm_memory_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 10000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "string",
+            "description": "Optional memory namespace. Defaults to 'default'."
+          },
+          "query": {
+            "type": "string",
+            "description": "Optional case-insensitive filter string."
+          }
+        }
+      }
+    },
+    {
+      "name": "add_memory",
+      "description": "Add one or more memory entries to the local LLM-GUI memory store.",
+      "command": "python3",
+      "args": [
+        "llm_memory_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 10000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "string"
+          },
+          "items": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "One memory string or an array of memory strings."
+          }
+        },
+        "required": [
+          "items"
+        ]
+      }
+    },
+    {
+      "name": "update_memory",
+      "description": "Update one or more memory entries by 1-based index in the local LLM-GUI memory store.",
+      "command": "python3",
+      "args": [
+        "llm_memory_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 10000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "string"
+          },
+          "updates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer"
+                },
+                "content": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "index",
+                "content"
+              ]
+            }
+          }
+        },
+        "required": [
+          "updates"
+        ]
+      }
+    },
+    {
+      "name": "delete_memory",
+      "description": "Delete one or more memory entries by 1-based index from the local LLM-GUI memory store.",
+      "command": "python3",
+      "args": [
+        "llm_memory_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 10000,
+      "scopes": [
+        "filesystem.read",
+        "filesystem.write",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "string"
+          },
+          "indices": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "description": "One or more 1-based indices."
+          }
+        },
+        "required": [
+          "indices"
+        ]
+      }
+    }
+  ]
+}

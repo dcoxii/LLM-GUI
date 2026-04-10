@@ -1,0 +1,42 @@
+{
+  "name": "Parallel Tools",
+  "requested_scopes": [
+    "network",
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "parallel_web_search",
+      "description": "Run multiple web searches concurrently and return grouped results. This is an LLM-GUI adaptation of the OpenWebUI parallel-tools concept.",
+      "command": "python3",
+      "args": [
+        "parallel_web_search_tool.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 30000,
+      "scopes": [
+        "network",
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Independent search queries to run in parallel."
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "Maximum results per query, default 5."
+          }
+        },
+        "required": [
+          "queries"
+        ]
+      }
+    }
+  ]
+}

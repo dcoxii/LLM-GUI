@@ -1,0 +1,297 @@
+{
+  "name": "Open WebUI code execution tool v3",
+  "requested_scopes": [
+    "process"
+  ],
+  "tools": [
+    {
+      "name": "exec_python",
+      "description": "Invoke exec_python from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "code",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          },
+          "session_id": {
+            "type": "string",
+            "description": "session id",
+            "default": ""
+          },
+          "save_as": {
+            "type": "string",
+            "description": "save as",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_shell",
+      "description": "Invoke exec_shell from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "command",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          },
+          "session_id": {
+            "type": "string",
+            "description": "session id",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_lint",
+      "description": "Invoke exec_lint from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "code",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_check_deps",
+      "description": "Invoke exec_check_deps from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "code",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_pip_install",
+      "description": "Invoke exec_pip_install from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "packages": {
+            "type": "string",
+            "description": "packages",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_write_file",
+      "description": "Invoke exec_write_file from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "filename",
+            "default": ""
+          },
+          "content": {
+            "type": "string",
+            "description": "content",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          },
+          "session_id": {
+            "type": "string",
+            "description": "session id",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_read_file",
+      "description": "Invoke exec_read_file from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "filename",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "description": "text",
+            "default": ""
+          },
+          "session_id": {
+            "type": "string",
+            "description": "session id",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_list_files",
+      "description": "Invoke exec_list_files from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "description": "session id",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_session_info",
+      "description": "Invoke exec_session_info from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "description": "session id",
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "exec_env_info",
+      "description": "Invoke exec_env_info from Open WebUI code execution tool v3.",
+      "command": "python3",
+      "args": [
+        "open_webui_code_execution_tool_v3_plugin.py"
+      ],
+      "working_directory": ".",
+      "timeout_ms": 60000,
+      "scopes": [
+        "process"
+      ],
+      "input_schema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}

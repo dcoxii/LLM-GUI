@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=cmake --builddirectory=build
+
+override_dh_dwz:
+	# Clang 21 emits DWARF sections that the dwz version in the build environment
+	# cannot currently process reliably.
+	true
