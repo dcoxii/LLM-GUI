@@ -29,6 +29,8 @@ qt_add_executable(llm-gui
     src/app/MainWindow.cpp
     src/app/SettingsDialog.h
     src/app/SettingsDialog.cpp
+    src/app/HuggingFaceDialog.h
+    src/app/HuggingFaceDialog.cpp
     src/app/PluginManagerDialog.h
     src/app/PluginManagerDialog.cpp
     src/app/PtyTerminal.h
@@ -47,6 +49,8 @@ qt_add_executable(llm-gui
     src/services/ProviderClient.h
     src/services/DeepSeekClient.h
     src/services/DeepSeekClient.cpp
+    src/services/HuggingFaceHubClient.h
+    src/services/HuggingFaceHubClient.cpp
     src/services/LlamaCppClient.h
     src/services/LlamaCppClient.cpp
     src/services/ProviderHealthProbe.h

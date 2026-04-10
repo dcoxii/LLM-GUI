@@ -1,5 +1,7 @@
 #include "app/SettingsDialog.h"
 
+#include "app/HuggingFaceDialog.h"
+
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
@@ -30,8 +32,10 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
     , m_deepSeekModelCombo(new QComboBox(this))
     , m_refreshDeepSeekModelsButton(new QPushButton("Refresh OpenAI Models", this))
     , m_deepSeekApiKeyEdit(new QLineEdit(this))
+    , m_huggingFaceTokenEdit(new QLineEdit(this))
     , m_llamaCppModelPathEdit(new QLineEdit(this))
     , m_browseLlamaCppModelPathButton(new QPushButton("Browse...", this))
+    , m_searchHuggingFaceButton(new QPushButton("Search Hugging Face...", this))
     , m_llamaCppModelLabelEdit(new QLineEdit(this))
     , m_sessionPathEdit(new QLineEdit(this))
     , m_customInstructionsEdit(new QTextEdit(this))
@@ -63,6 +67,8 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
     m_deepSeekModelCombo->setCurrentText(m_settings.deepSeekModel());
     m_deepSeekApiKeyEdit->setText(m_settings.deepSeekApiKey());
     m_deepSeekApiKeyEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
+    m_huggingFaceTokenEdit->setText(m_settings.huggingFaceToken());
+    m_huggingFaceTokenEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
 
     m_llamaCppModelPathEdit->setText(m_settings.llamaCppModelPath());
     m_llamaCppModelPathEdit->setPlaceholderText(QStringLiteral("Auto-detected from common model folders when possible"));
@@ -94,6 +100,7 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
     llamaModelLayout->setContentsMargins(0, 0, 0, 0);
     llamaModelLayout->addWidget(m_llamaCppModelPathEdit, 1);
     llamaModelLayout->addWidget(m_browseLlamaCppModelPathButton);
+    llamaModelLayout->addWidget(m_searchHuggingFaceButton);
 
     auto *deepSeekModelRow = new QWidget(this);
     auto *deepSeekModelLayout = new QHBoxLayout(deepSeekModelRow);
@@ -106,6 +113,7 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
     form->addRow(QStringLiteral("OpenAI Base URL"), m_deepSeekBaseUrlEdit);
     form->addRow(QStringLiteral("OpenAI Model"), deepSeekModelRow);
     form->addRow(QStringLiteral("OpenAI API Key"), m_deepSeekApiKeyEdit);
+    form->addRow(QStringLiteral("Hugging Face Token"), m_huggingFaceTokenEdit);
     form->addRow(QStringLiteral("llama.cpp GGUF Model Path"), llamaModelRow);
     form->addRow(QStringLiteral("llama.cpp Model Label"), m_llamaCppModelLabelEdit);
     form->addRow(QStringLiteral("llama.cpp Context Size"), m_llamaCppContextSpin);
@@ -120,6 +128,7 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
     connect(buttons, &QDialogButtonBox::accepted, this, &SettingsDialog::saveAndAccept);
     connect(buttons, &QDialogButtonBox::rejected, this, &SettingsDialog::reject);
     connect(m_refreshDeepSeekModelsButton, &QPushButton::clicked, this, &SettingsDialog::refreshDeepSeekModels);
+    connect(m_searchHuggingFaceButton, &QPushButton::clicked, this, &SettingsDialog::openHuggingFaceBrowser);
     connect(m_browseLlamaCppModelPathButton, &QPushButton::clicked, this, [this]() {
         const QString current = m_llamaCppModelPathEdit->text().trimmed();
         const QString selected = QFileDialog::getOpenFileName(
@@ -151,6 +160,7 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
 
         m_llamaCppModelPathEdit->setEnabled(isLlamaCpp);
         m_browseLlamaCppModelPathButton->setEnabled(isLlamaCpp);
+        m_searchHuggingFaceButton->setEnabled(isLlamaCpp);
         m_llamaCppModelLabelEdit->setEnabled(isLlamaCpp);
         m_llamaCppContextSpin->setEnabled(isLlamaCpp);
         m_llamaCppGpuLayersSpin->setEnabled(isLlamaCpp);
@@ -159,6 +169,29 @@ SettingsDialog::SettingsDialog(llm_gui::core::AppSettings &settings, QWidget *pa
     connect(m_providerCombo, &QComboBox::currentIndexChanged, this, [refreshProviderFields](int) { refreshProviderFields(); });
     updateProviderAvailability();
     refreshProviderFields();
+}
+
+void SettingsDialog::openHuggingFaceBrowser() {
+    HuggingFaceDialog dialog(m_huggingFaceTokenEdit->text().trimmed(),
+                             m_settings.defaultLlamaCppDownloadDirectory(),
+                             m_timeoutSpin->value(),
+                             this);
+    if (dialog.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    m_huggingFaceTokenEdit->setText(dialog.token());
+
+    const QString downloadedPath = dialog.downloadedModelPath().trimmed();
+    if (downloadedPath.isEmpty()) {
+        return;
+    }
+
+    m_llamaCppModelPathEdit->setText(downloadedPath);
+    if (m_llamaCppModelLabelEdit->text().trimmed().isEmpty()
+        || m_llamaCppModelLabelEdit->text().trimmed() == QStringLiteral("local-gguf")) {
+        m_llamaCppModelLabelEdit->setText(QFileInfo(downloadedPath).completeBaseName());
+    }
 }
 
 void SettingsDialog::updateProviderAvailability() {
@@ -208,6 +241,7 @@ void SettingsDialog::saveAndAccept() {
     m_settings.setDeepSeekBaseUrl(m_deepSeekBaseUrlEdit->text());
     m_settings.setDeepSeekModel(m_deepSeekModelCombo->currentText());
     m_settings.setDeepSeekApiKey(m_deepSeekApiKeyEdit->text());
+    m_settings.setHuggingFaceToken(m_huggingFaceTokenEdit->text());
     m_settings.setLlamaCppModelPath(m_llamaCppModelPathEdit->text());
     m_settings.setLlamaCppModelLabel(m_llamaCppModelLabelEdit->text());
     m_settings.setLlamaCppContextSize(m_llamaCppContextSpin->value());

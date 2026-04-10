@@ -23,6 +23,7 @@ public:
 private slots:
     void saveAndAccept();
     void refreshDeepSeekModels();
+    void openHuggingFaceBrowser();
 
 private:
     void updateProviderAvailability();
@@ -33,8 +34,10 @@ private:
     QComboBox *m_deepSeekModelCombo;
     QPushButton *m_refreshDeepSeekModelsButton;
     QLineEdit *m_deepSeekApiKeyEdit;
+    QLineEdit *m_huggingFaceTokenEdit;
     QLineEdit *m_llamaCppModelPathEdit;
     QPushButton *m_browseLlamaCppModelPathButton;
+    QPushButton *m_searchHuggingFaceButton;
     QLineEdit *m_llamaCppModelLabelEdit;
     QLineEdit *m_sessionPathEdit;
     QTextEdit *m_customInstructionsEdit;

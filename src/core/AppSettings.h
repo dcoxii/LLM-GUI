@@ -24,9 +24,13 @@ public:
     QString deepSeekApiKey() const;
     void setDeepSeekApiKey(const QString &value);
 
+    QString huggingFaceToken() const;
+    void setHuggingFaceToken(const QString &value);
+
     QString configuredLlamaCppModelPath() const;
     QString llamaCppModelPath() const;
     QStringList discoverLlamaCppModelPaths() const;
+    QString defaultLlamaCppDownloadDirectory() const;
     void setLlamaCppModelPath(const QString &value);
 
     int llamaCppContextSize() const;

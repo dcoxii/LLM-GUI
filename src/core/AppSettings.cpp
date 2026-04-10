@@ -38,6 +38,16 @@ QString normalizeExistingFilePath(const QString &path) {
     return canonicalPath.isEmpty() ? info.absoluteFilePath() : canonicalPath;
 }
 
+QString normalizeExistingDirectoryPath(const QString &path) {
+    const QFileInfo info(path.trimmed());
+    if (!info.exists() || !info.isDir() || !info.isReadable()) {
+        return {};
+    }
+
+    const QString canonicalPath = info.canonicalFilePath();
+    return canonicalPath.isEmpty() ? info.absoluteFilePath() : canonicalPath;
+}
+
 QString autoLabelForModelPath(const QString &modelPath) {
     const QFileInfo info(modelPath.trimmed());
     const QString baseName = info.completeBaseName().trimmed();
@@ -145,6 +155,36 @@ QStringList discoverGgufModels(const QStringList &directories) {
     return result;
 }
 
+QString defaultLlamaDownloadDirectory() {
+    const QString configuredModelPath = normalizeExistingFilePath(
+        firstEnvironmentValue({QStringLiteral("LLM_GUI_MODEL_PATH"), QStringLiteral("MODEL_PATH")}));
+    if (!configuredModelPath.isEmpty()) {
+        const QString parentDir = normalizeExistingDirectoryPath(QFileInfo(configuredModelPath).absolutePath());
+        if (!parentDir.isEmpty()) {
+            return parentDir;
+        }
+    }
+
+    const QString configuredDir = normalizeExistingDirectoryPath(firstEnvironmentValue({QStringLiteral("LLM_GUI_MODEL_DIR")}));
+    if (!configuredDir.isEmpty()) {
+        return configuredDir;
+    }
+
+    const QString appConfigModelDir = QDir::home().filePath(QStringLiteral(".config/LLM-GUI/model"));
+    QDir().mkpath(appConfigModelDir);
+    const QString normalizedAppConfigModelDir = normalizeExistingDirectoryPath(appConfigModelDir);
+    if (!normalizedAppConfigModelDir.isEmpty()) {
+        return normalizedAppConfigModelDir;
+    }
+
+    const QString downloadsDir = normalizeExistingDirectoryPath(QDir::home().filePath(QStringLiteral("Downloads")));
+    if (!downloadsDir.isEmpty()) {
+        return downloadsDir;
+    }
+
+    return QDir::homePath();
+}
+
 QString defaultLlamaModelPath() {
     const QString envPath = normalizeExistingFilePath(
         firstEnvironmentValue({QStringLiteral("LLM_GUI_MODEL_PATH"), QStringLiteral("MODEL_PATH")}));
@@ -245,6 +285,22 @@ void AppSettings::setDeepSeekApiKey(const QString &value) {
     m_settings.setValue("providers/deepseek/api_key", trimmed);
 }
 
+QString AppSettings::huggingFaceToken() const {
+    const QString configured = m_settings.value("providers/huggingface/token", QString()).toString().trimmed();
+    if (!configured.isEmpty()) {
+        return configured;
+    }
+    return firstEnvironmentValue({
+        QStringLiteral("HF_TOKEN"),
+        QStringLiteral("HUGGING_FACE_HUB_TOKEN"),
+        QStringLiteral("HUGGINGFACE_TOKEN")
+    });
+}
+
+void AppSettings::setHuggingFaceToken(const QString &value) {
+    m_settings.setValue("providers/huggingface/token", value.trimmed());
+}
+
 QString AppSettings::configuredLlamaCppModelPath() const {
     return m_settings.value("providers/llama_cpp/model_path", QString()).toString().trimmed();
 }
@@ -279,6 +335,18 @@ QStringList AppSettings::discoverLlamaCppModelPaths() const {
 
     discovered.removeDuplicates();
     return discovered;
+}
+
+QString AppSettings::defaultLlamaCppDownloadDirectory() const {
+    const QString configured = normalizeExistingFilePath(configuredLlamaCppModelPath());
+    if (!configured.isEmpty()) {
+        const QString parentDir = normalizeExistingDirectoryPath(QFileInfo(configured).absolutePath());
+        if (!parentDir.isEmpty()) {
+            return parentDir;
+        }
+    }
+
+    return defaultLlamaDownloadDirectory();
 }
 
 void AppSettings::setLlamaCppModelPath(const QString &value) {
