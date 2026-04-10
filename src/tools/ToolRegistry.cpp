@@ -61,6 +61,18 @@ QStringList toScopeList(const QJsonValue &value)
     return normalizeScopes(scopes);
 }
 
+QString manifestPluginKey(const QFileInfo &manifestInfo, const QJsonObject *rootObject = nullptr)
+{
+    QString pluginName = manifestInfo.baseName();
+    if (rootObject) {
+        const QString manifestName = rootObject->value("name").toString().trimmed();
+        if (!manifestName.isEmpty()) {
+            pluginName = manifestName;
+        }
+    }
+    return ToolRegistry::normalizePluginKey(pluginName);
+}
+
 QString userPluginDirectory()
 {
     return QDir::cleanPath(QDir::home().filePath(QStringLiteral(".config/LLM-GUI/plugins")));
@@ -376,7 +388,9 @@ QString ToolRegistry::reloadPlugins()
 
     QStringList loaded;
     QStringList errors;
+    QStringList shadowed;
     QSet<QString> registeredToolNames;
+    QSet<QString> loadedPluginKeys;
 
     for (const QString &rootPath : pluginSearchRoots()) {
         QDir root(rootPath);
@@ -393,6 +407,12 @@ QString ToolRegistry::reloadPlugins()
             QFile file(manifestInfo.absoluteFilePath());
             if (!file.open(QIODevice::ReadOnly)) {
                 plugin.name = manifestInfo.baseName();
+                const QString pluginKey = manifestPluginKey(manifestInfo);
+                if (loadedPluginKeys.contains(pluginKey)) {
+                    shadowed << QString("%1 (%2)").arg(plugin.name, manifestInfo.absoluteFilePath());
+                    continue;
+                }
+                loadedPluginKeys.insert(pluginKey);
                 plugin.errors << "Unreadable manifest";
                 m_pluginInfos.push_back(plugin);
                 errors << QString("%1 (unreadable)").arg(manifestInfo.fileName());
@@ -403,6 +423,12 @@ QString ToolRegistry::reloadPlugins()
             const QJsonDocument document = QJsonDocument::fromJson(file.readAll(), &parseError);
             if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
                 plugin.name = manifestInfo.baseName();
+                const QString pluginKey = manifestPluginKey(manifestInfo);
+                if (loadedPluginKeys.contains(pluginKey)) {
+                    shadowed << QString("%1 (%2)").arg(plugin.name, manifestInfo.absoluteFilePath());
+                    continue;
+                }
+                loadedPluginKeys.insert(pluginKey);
                 plugin.errors << "Invalid JSON";
                 m_pluginInfos.push_back(plugin);
                 errors << QString("%1 (invalid JSON)").arg(manifestInfo.fileName());
@@ -410,6 +436,13 @@ QString ToolRegistry::reloadPlugins()
             }
 
             const QJsonObject rootObject = document.object();
+            const QString pluginKey = manifestPluginKey(manifestInfo, &rootObject);
+            if (loadedPluginKeys.contains(pluginKey)) {
+                shadowed << QString("%1 (%2)").arg(rootObject.value("name").toString(manifestInfo.baseName()).trimmed(),
+                                                    manifestInfo.absoluteFilePath());
+                continue;
+            }
+            loadedPluginKeys.insert(pluginKey);
             plugin.name = rootObject.value("name").toString(manifestInfo.baseName()).trimmed();
             if (plugin.name.isEmpty()) {
                 plugin.name = manifestInfo.baseName();
@@ -537,6 +570,9 @@ QString ToolRegistry::reloadPlugins()
     }
     if (!errors.isEmpty()) {
         lines << QString("Skipped or invalid: %1").arg(errors.join(", "));
+    }
+    if (!shadowed.isEmpty()) {
+        lines << QString("Shadowed duplicate manifests: %1").arg(shadowed.join(", "));
     }
     if (m_sandboxRunner) {
         lines << QString("Plugin sandbox: %1 (%2)").arg(m_sandboxRunner->backendName(), m_sandboxRunner->availabilityMessage());
